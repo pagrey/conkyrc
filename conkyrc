@@ -1,0 +1,94 @@
+conky.config = {
+    alignment = 'top_left',
+    background = false,
+    border_width = 1,
+    cpu_avg_samples = 2,
+    default_color = '#FFFFFF',
+    default_outline_color = 'black',
+    default_shade_color = 'black',
+    color1 = '#EEEEDD',
+    color2 = 'white',
+    draw_borders = false,
+    draw_graph_borders = true,
+    draw_outline = false,
+    draw_shades = false,
+    use_xft = true,
+    font = 'Misc:file=/usr/share/fonts/misc/6x12.pcf.gz',
+    gap_x = 1100,
+    gap_y = 15,
+    minimum_height = 0,
+    minimum_width = 250,
+    net_avg_samples = 2,
+    out_to_console = false,
+    out_to_stderr = false,
+    extra_newline = false,
+    own_window = true,
+    own_window_transparent = true;
+    own_window_class = 'Conky',
+    own_window_type = 'normal',
+    own_window_hints = 'undecorated,below,skip_taskbar,skip_pager',
+    stippled_borders = 0,
+    update_interval = 5.0,
+    update_interval_on_battery = 50.0,
+    uppercase = false,
+    use_spacer = 'none',
+    show_graph_scale = false,
+    show_graph_range = false,
+    double_buffer = true,
+    no_buffers = true
+}
+conky.text = [[
+${color}CPU1 ${color1}${cpu cpu1}% ${alignr}${freq_g cpu1}GHz
+${color}${cpugraph cpu1 20}
+${if_existing /sys/devices/system/cpu/cpu1}CPU2 ${color1}${cpu cpu2}% ${alignr}${freq_g cpu2}GHz
+${color}${cpugraph cpu2 20}${endif}
+${if_existing /sys/devices/system/cpu/cpu2}CPU3 ${color1}${cpu cpu3}% ${alignr}${freq_g cpu3}GHz
+${color}${cpugraph cpu3 20}${endif}
+${if_existing /sys/devices/system/cpu/cpu3}CPU4 ${color1}${cpu cpu4}% ${alignr}${freq_g cpu4}GHz
+${color}${cpugraph cpu2 20}${endif}
+${color}RAM Usage ${color1}${memperc}% ${alignr}${mem} of ${memmax}
+${color}${membar 14}
+
+${color}root system ${alignr}${color1}${fs_used /} of ${fs_size /}
+${color}${fs_bar /}
+${color}/home/pagrey ${alignr}${color1}${fs_used /home/pagrey} of ${fs_size /home/pagrey}
+${color}${fs_bar /home/pagrey}
+
+${color2}${font DejaVu Sans:bold:size=28}${alignc}    ${time %l}${font DejaVu Sans:size=28}${alignc}${time :%M}${font DejaVu Sans:bold:size=12} ${time
+ %p}
+${color2}${alignc}${font DejaVu Sans:size=12}${time %^a}${font DejaVu Sans:bold:size=12}${alignc}${time %d}${font DejaVu Sans:size=12}${alignc}${time 
+%^b}
+${color2}${font}${alignc}$sysname $kernel $machine${image /home/pagrey/.config/icon/arch_64_tr.png -p 16,304 -s 64x64}
+${color2}${alignc}${nodename} running ${uptime_short}
+
+${if_existing /proc/net/route wlp3s0}${color}Interface wlp3s0 ${color1}${wireless_essid wlp3s0}${alignr}${addr wlp3s0}
+${color}${wireless_link_bar 6 wlp3s0}
+
+${color}Download ${color1}${downspeed wlp3s0}kb/s${alignr}${totaldown wlp3s0}
+${color}${downspeedgraph wlp3s0 20}
+${color}Upload ${color1}${upspeed wlp3s0}kb/s${alignr}${totalup wlp3s0}
+${color}${upspeedgraph wlp3s0 20}${else}${color}Interface wlp3s0 ${color1}${alignr}down${endif}
+${if_existing /proc/net/route enp0s25}${color}Interface enp0s25 ${color1}${alignr}${addr enp0s25}
+${color}Down ${color1}${downspeed enp0s25}kb/s${alignr}${totaldown enp0s25}
+${color}${downspeedgraph enp0s25 24}
+${color}Up ${color1}${upspeed enp0s25}kb/s${alignr}${totalup enp0s25}
+${color}${upspeedgraph enp0s25 24}${else}${color}Interface enp0s25 ${color1}${alignr}down
+${endif}
+${if_match "${acpiacadapter}" == "off-line"}${color}Battery Status
+${color}${alignr}Time ${battery_time BAT0}
+${color}${alignr}Charger ${acpiacadapter}
+${color1}${voffset -22}${font DejaVu Sans:bold:size=24}${battery_percent BAT0}%${font}${else}
+${color}${font}Battery ${battery_percent BAT0}%${alignr}${battery_time BAT0}
+${battery_bar 6 BAT0}
+${endif}
+
+${color}Processes (CPU) $processes Running $running_processes
+${color}Name ${alignr 60}CPU% ${alignr}MEM%
+$color ${top name 1} ${alignr 50}${top cpu 1} $alignr${top mem 1}
+$color ${top name 2} ${alignr 50}${top cpu 2} $alignr${top mem 2}
+$color ${top name 3} ${alignr 50}${top cpu 3} $alignr${top mem 3}
+${color}Processes (MEM)
+${color} ${top_mem name 1} ${alignr 50}${top_mem cpu 1} $alignr${top_mem mem 1}
+$color ${top_mem name 2} ${alignr 50}${top_mem cpu 2} $alignr${top_mem mem 2}
+$color ${top_mem name 3} ${alignr 50}${top_mem cpu 3} $alignr${top_mem mem 3}
+]]
